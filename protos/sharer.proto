@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package sharer;
+
+service Hasher {
+  rpc GetUniqueKey (GetKeyRequest) returns (GetKeyResponse);
+  rpc GetAccess(GetAccessRequest) returns (GetAccessResponse);
+}
+
+message GetKeyRequest {
+  optional string secret = 1;
+}
+
+message GetKeyResponse {
+  string key = 1;
+}
+
+message GetAccessRequest {
+  string key = 1;
+  optional string secret = 2;
+}
+
+message GetAccessResponse {
+  bool permit = 1;
+}

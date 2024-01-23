@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: "web"
+    image: nginx:alpine
+    depends_on:
+      - app
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}"
+    volumes:
+      - ./config/conf.d:/etc/nginx/conf.d
+    networks:
+      - sharer
+
+  app:
+    build: .
+    container_name: "app"
+    entrypoint: ["bash" , "entrypoint.sh" ]
+    ports:
+      - "${APP_BACKEND_PORT}:${APP_UVICORN_PORT}"
+    volumes:
+      - .:/usr/src/app/
+    env_file:
+      - .env
+    networks:
+      - sharer
+
+  localstack:
+    container_name: "localstack"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+    environment:
+      - DEBUG=0
+      - LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT=20
+      - PROVIDER_OVERRIDE_LAMBDA=asf
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - LOCALSTACK_HOSTNAME=localstack
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+networks:
+  sharer:
+    external: true
