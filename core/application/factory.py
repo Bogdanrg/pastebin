@@ -6,11 +6,11 @@ from fastapi import APIRouter, FastAPI
 
 
 def create(
-        *_,
-        rest_routers: Iterable[APIRouter],
-        startup_tasks: Iterable[Callable[[], Coroutine]] | None = None,
-        shutdown_tasks: Iterable[Callable[[], Coroutine]] | None = None,
-        **kwargs,
+    *_,
+    rest_routers: Iterable[APIRouter],
+    startup_tasks: Iterable[Callable[[], Coroutine]] | None = None,
+    shutdown_tasks: Iterable[Callable[[], Coroutine]] | None = None,
+    **kwargs,
 ) -> FastAPI:
     app = FastAPI(**kwargs)
 

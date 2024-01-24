@@ -11,6 +11,9 @@ pydantic-settings = "*"
 grpcio = "*"
 grpcio-tools = "*"
 boto3 = "*"
+pre-commit = "*"
+asgiref = "*"
+mypy = "*"
 
 [dev-packages]
 
