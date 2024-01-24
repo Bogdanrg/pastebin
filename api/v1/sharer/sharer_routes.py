@@ -11,4 +11,8 @@ sharer_router = APIRouter(prefix="/sharer")
 @sharer_router.post("/article")
 async def create_article(article: ArticleModel,
                          s3_resource: resource = Depends(get_s3_resource)) -> dict:
-    await ArticleService.upload_article(s3_resource, article['content'], article["expiration"])
+    url = await ArticleService.upload_article(s3_resource, article.content, article.expiration)
+    return {
+        "status": "ok",
+        "url": url
+    }

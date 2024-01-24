@@ -6,7 +6,6 @@ class AppSettings(BaseSettings):
     UVICORN_HOST: str
     BACKEND_PORT: int
     TITLE: str
-    BUCKET_NAME: str
 
     model_config = SettingsConfigDict(env_prefix="APP_", env_file="../.env")
 
@@ -26,10 +25,18 @@ class NginxSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="NGINX_", env_file="../.env")
 
 
+class LocalstackSettings(BaseSettings):
+    ENDPOINT_URL: str
+    BUCKET_NAME: str
+
+    model_config = SettingsConfigDict(env_prefix="LOCALSTACK_", env_file="../.env")
+
+
 class Settings(BaseSettings):
     app: AppSettings = AppSettings()
     hash_service: HashServiceSettings = HashServiceSettings()
     postgres: NginxSettings = NginxSettings()
+    localstack: LocalstackSettings = LocalstackSettings()
 
 
 settings = Settings()

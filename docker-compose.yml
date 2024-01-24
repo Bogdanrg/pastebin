@@ -25,6 +25,8 @@ services:
       - .env
     networks:
       - sharer
+    depends_on:
+      - localstack
 
   localstack:
     container_name: "localstack"
@@ -40,6 +42,8 @@ services:
       - LOCALSTACK_HOSTNAME=localstack
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - sharer
 
 networks:
   sharer:

@@ -1,6 +1,6 @@
 from boto3 import resource
-from services import sharer_pb2, sharer_pb2_grpc
 from config.app_config import settings
+from services import sharer_pb2_grpc, sharer_pb2
 import grpc
 
 
@@ -10,9 +10,10 @@ class ArticleService:
     async def upload_article(s3_resource: resource,
                              content: str,
                              expiration: int = 86400,
-                             secret: str | None = None) -> None:
+                             secret: str | None = None) -> str:
         object_key = await ArticleService.get_unique_key(secret)
-        s3_object = s3_resource.Object(settings.app.BUCKET_NAME, object_key).put(Body=content)
+        s3_object = s3_resource.Object(settings.localstack.BUCKET_NAME, "object_key").put(Body=content)
+        return "object_key"
 
     @staticmethod
     async def get_unique_key(secret: str | None = None) -> str:
